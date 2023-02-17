@@ -8,10 +8,6 @@
 import UIKit
 import SDWebImage
 
-
-
-
-
 class NewsViewController: UIViewController {
     
     var articlesArray = [Article]()
@@ -25,7 +21,7 @@ class NewsViewController: UIViewController {
     let cellId = "cellId"
     
     let tabTitleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         label.font = .boldSystemFont(ofSize: 34)
@@ -49,10 +45,12 @@ class NewsViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
+    // fetching data from NewsAPI
     private func fetchData() {
         let urlString = "https://newsapi.org/v2/everything?q=keyword&apiKey=c70c643125554893aeecc898703e50a1"
         guard let url = URL(string: urlString) else { return }
-
+        
+        // getting data with URLSassion
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 print("Ошибка получения данных: \(error.localizedDescription)")
@@ -61,12 +59,12 @@ class NewsViewController: UIViewController {
             guard let data = data else { return }
             
             do {
+                // decoding JSON
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let newsResponse = try decoder.decode(NewsResponse.self, from: data)
                 let articles = newsResponse.articles
                 self.articlesArray = articles
-                print("Получено новостей: \(articles.count)")
                 DispatchQueue.main.async {
                     self.newsTableView.reloadData()
                 }
@@ -76,12 +74,10 @@ class NewsViewController: UIViewController {
         }.resume()
     }
     
-    
     private func addSubviews() {
         view.addSubview(newsTableView)
         view.addSubview(tabTitleLabel)
     }
-    
     
     private func layoutSubviews() {
         NSLayoutConstraint.activate([
@@ -106,8 +102,9 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // configure reusableCell
         let cell  = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! NewsTableViewCell
-
+        // population views in cell with data from JSON
         let article = articlesArray[indexPath.section]
         cell.delegate = self
         if let URLString = article.urlToImage {
@@ -119,13 +116,11 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.postTitleLabel.text = article.title
         cell.postTextLabel.text = article.description
         if article.isFavorite == true {
-            cell.likeImageView.tintColor = .red
+            cell.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         }
         return cell
     }
     
-    
-  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = NewsDetailsViewController()
         let article = articlesArray[indexPath.section]
@@ -136,11 +131,11 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
         vc.postTitleLabel.text = article.title
         vc.postTextLabel.text = article.description
         if article.isFavorite == true {
-            vc.likeImageView.tintColor = .red
+            vc.likeImageView.image = UIImage(systemName: "heart.fill")
+            vc.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         }
         navigationController?.pushViewController(vc, animated: true)
     }
-    
 }
 
 extension NewsViewController: TableCellDelegate {
@@ -150,20 +145,11 @@ extension NewsViewController: TableCellDelegate {
         guard let indexPath = newsTableView.indexPath(for: cell) else { return }
         if cell.isVarotite == false {
             cell.likeImageView.image = UIImage(systemName: "heart.fill")
-            cell.likeImageView.tintColor = .red
+            cell.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
             articlesArray[indexPath.section].isFavorite = true
             favoritePostsArray.append(articlesArray[indexPath.section])
             cell.isVarotite.toggle()
-        } else {
-//            cell.likeImageView.tintColor = UIColor(named: "Color")
-//            cell.likeImageView.image = UIImage(systemName: "heart")
-//            cell.isVarotite.toggle()
         }
-        
-
-        
     }
-    
-    
 }
 
