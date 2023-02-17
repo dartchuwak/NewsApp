@@ -17,7 +17,6 @@ class ProfileViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 50
         imageView.backgroundColor = .orange
-      //  imageView.image = UIImage(named: "avatar")
         return imageView
     }()
     
