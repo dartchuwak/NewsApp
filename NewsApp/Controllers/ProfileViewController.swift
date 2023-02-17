@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
 
 class ProfileViewController: UIViewController {
     
@@ -16,7 +17,7 @@ class ProfileViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 50
         imageView.backgroundColor = .orange
-        imageView.image = UIImage(named: "avatar")
+      //  imageView.image = UIImage(named: "avatar")
         return imageView
     }()
     
@@ -66,6 +67,7 @@ class ProfileViewController: UIViewController {
         addSubviews()
         viewsLayout()
         getUserData()
+        getImageData()
         exitButton.addTarget(self, action: #selector(exitTapped), for: .touchUpInside)
     }
     
@@ -107,7 +109,6 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func exitTapped() {
-        
         let alert = UIAlertController(title: "Выход", message: "Вы уверены, что хотите выйти из аккаунта?", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Выход", style: .destructive) { _ in
             do {
@@ -122,5 +123,19 @@ class ProfileViewController: UIViewController {
         alert.addAction(cancelAction)
         alert.addAction(confirmAction)
         self.present(alert, animated: true)
+    }
+    
+    private func getImageData() {
+        let storageRef = Storage.storage().reference()
+        let imageRef = storageRef.child("avatar.jpg")
+        imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+          if let error = error {
+            print("Error downloading image: \(error)")
+          } else {
+            let image = UIImage(data: data!)
+              self.profileImageView.image = image
+          }
+        }
+
     }
 }

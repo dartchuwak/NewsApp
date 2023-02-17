@@ -60,18 +60,29 @@ class NewsDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "background")
         self.title = "Статья"
+        view.backgroundColor = UIColor(named: "background")
         navigationController?.navigationBar.topItem?.title = ""
+        addViews()
+        likeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(likesTapped)))
+        layoutViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    private func addViews() {
         view.addSubview(postImageView)
         view.addSubview(postTitleLabel)
         view.addSubview(postTextLabel)
         view.addSubview(stackView)
         stackView.addArrangedSubview(dateLabel)
         stackView.addArrangedSubview(likeImageView)
-        likeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(likesTapped)))
-        
-        
+    }
+    
+    private func layoutViews() {
         NSLayoutConstraint.activate([
             postImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             postImageView.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -87,12 +98,6 @@ class NewsDetailsViewController: UIViewController {
             postTextLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             postTextLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -14)
         ])
-
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     @objc private func likesTapped() {

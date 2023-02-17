@@ -90,18 +90,14 @@ class AuthViewController: UIViewController {
         passwordTextField.delegate = self
         self.title = "Вход"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        view.addSubview(enterButton)
-        stackView.addArrangedSubview(label)
-        stackView.addArrangedSubview(registerLabel)
-        view.addSubview(stackView)
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(passwordResetButton)
+        addViews()
+        layoutViews()
         enterButton.addTarget(self, action: #selector(pressed), for: .touchUpInside)
         registerLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTap)))
         passwordResetButton.addTarget(self, action: #selector(resetPressed), for: .touchUpInside)
-        
-        
+    }
+    
+    private func layoutViews() {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: enterButton.bottomAnchor, constant: 20),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -122,8 +118,18 @@ class AuthViewController: UIViewController {
         ])
     }
     
+    private func addViews() {
+        view.addSubview(enterButton)
+        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(registerLabel)
+        view.addSubview(stackView)
+        view.addSubview(emailTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(passwordResetButton)
+    }
+    
+    // Changes mode from sign in to registration and backwards
     @objc private func onTap() {
-        
         if isInRegistrationMode == false {
             self.title = "Регистрация"
             label.text = "У вас есть аккаунт?"
@@ -144,16 +150,19 @@ class AuthViewController: UIViewController {
     }
     
     @objc private func pressed() {
+        
+        // Check if textfields is nil or empty
         if (emailTextField.text == "" || passwordTextField.text == "") || (emailTextField.text == nil || passwordTextField.text == nil) {
             let alert = UIAlertController(title: "Ошибка", message: "Заполните пустые поля", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ок", style: .default)
             alert.addAction(okAction)
             present(alert, animated: true)
         } else {
-            let email = emailTextField.text!
-            let password = passwordTextField.text!
-            
+            // Gets email and password from tf
+            guard let email = emailTextField.text else { return }
+            guard let password = passwordTextField.text else { return }
             if isInRegistrationMode == false {
+                // sign in into firebase with email and password if vc is in "enter" mode
                 Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                     if let error = error {
                         self.showAlert(title: "Ошибка аутентификации:", text: error.localizedDescription)
@@ -165,12 +174,13 @@ class AuthViewController: UIViewController {
                         print("Пользователь не найден")
                         return
                     }
-                    print("Пользователь успешно аутентифицирован: \(user.email ?? "")")
+                    print("Пользователь успешно аутентифицирован: \(String(describing: user.email))")
                     let tabBarController = TabBarController()
                     tabBarController.modalPresentationStyle = .fullScreen
                     self.present(tabBarController, animated: true)
                 }
             } else {
+                // creates new user into firebase and sign in in "registration" mode
                 Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                     if let error = error {
                         print("Ошибка аутентификации: \(error.localizedDescription)")
