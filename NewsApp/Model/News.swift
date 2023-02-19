@@ -24,5 +24,6 @@ struct NewsResponse: Decodable {
 
 
 var favoritePostsArray = [Article]()
+var articlesArray = [Article]()
 
 

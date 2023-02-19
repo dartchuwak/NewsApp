@@ -8,8 +8,9 @@
 import UIKit
 import Firebase
 import FirebaseStorage
+import SnapKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -68,6 +69,7 @@ class ProfileViewController: UIViewController {
         getUserData()
         getImageData()
         exitButton.addTarget(self, action: #selector(exitTapped), for: .touchUpInside)
+        
     }
     
     private func getUserData() {
@@ -87,24 +89,34 @@ class ProfileViewController: UIViewController {
     }
     
     private func viewsLayout() {
-        NSLayoutConstraint.activate([
-            profileImageView.topAnchor.constraint(equalTo: tabTitleLabel.bottomAnchor, constant: 23),
-            profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            profileImageView.heightAnchor.constraint(equalToConstant: 100),
-            profileImageView.widthAnchor.constraint(equalToConstant: 100),
-            userIdLabel.widthAnchor.constraint(equalToConstant: 300),
-            userIdLabel.heightAnchor.constraint(equalToConstant: 44),
-            userIdLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 27),
-            userIdLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            userEmailLabel.widthAnchor.constraint(equalToConstant: 300),
-            userEmailLabel.heightAnchor.constraint(equalToConstant: 44),
-            userEmailLabel.topAnchor.constraint(equalTo: userIdLabel.bottomAnchor, constant: 16),
-            userEmailLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            exitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            exitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            tabTitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 49),
-            tabTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-        ])
+        
+        tabTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.view.snp.top).inset(49)
+            make.leading.equalToSuperview().inset(30)
+        }
+        profileImageView.snp.makeConstraints { make in
+            make.top.equalTo(tabTitleLabel.snp.bottom).inset(-23)
+            make.centerX.equalTo(view.snp.centerX)
+            make.height.width.equalTo(100)
+        }
+        
+        userIdLabel.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(44)
+            make.top.equalTo(profileImageView.snp.bottom).inset(-27)
+            make.centerX.equalTo(view.snp.centerX)
+        }
+        
+        userEmailLabel.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(44)
+            make.top.equalTo(userIdLabel.snp.bottom).inset(-16)
+            make.centerX.equalTo(view.snp.centerX)
+        }
+        exitButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(30)
+            make.centerX.equalTo(view.snp.centerX)
+        }
     }
     
     @objc private func exitTapped() {

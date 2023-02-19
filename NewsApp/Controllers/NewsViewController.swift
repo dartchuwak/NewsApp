@@ -7,10 +7,11 @@
 
 import UIKit
 import SDWebImage
+import SnapKit
 
-class NewsViewController: UIViewController {
+final class NewsViewController: UIViewController {
     
-    var articlesArray = [Article]()
+   // var articlesArray = [Article]()
     
     let newsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -64,7 +65,7 @@ class NewsViewController: UIViewController {
                 decoder.dateDecodingStrategy = .iso8601
                 let newsResponse = try decoder.decode(NewsResponse.self, from: data)
                 let articles = newsResponse.articles
-                self.articlesArray = articles
+                articlesArray = articles
                 DispatchQueue.main.async {
                     self.newsTableView.reloadData()
                 }
@@ -80,14 +81,16 @@ class NewsViewController: UIViewController {
     }
     
     private func layoutSubviews() {
-        NSLayoutConstraint.activate([
-            tabTitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 49),
-            tabTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            newsTableView.topAnchor.constraint(equalTo: tabTitleLabel.bottomAnchor, constant: 23),
-            newsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            newsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            newsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
+        
+        tabTitleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(49)
+            make.leading.equalToSuperview().inset(30)
+        }
+        
+        newsTableView.snp.makeConstraints { make in
+            make.top.equalTo(tabTitleLabel.snp.bottom).inset(-23)
+            make.leading.bottom.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 
@@ -132,24 +135,21 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
         vc.postTextLabel.text = article.description
         if article.isFavorite == true {
             vc.likeImageView.image = UIImage(systemName: "heart.fill")
-            vc.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         }
+        vc.id = indexPath.section
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension NewsViewController: TableCellDelegate {
     func didTapImageInCell( cell: UITableViewCell) {
-        let _ = FavoritesViewController()
+     //   let vc = FavoritesViewController()
         guard let cell = cell as? NewsTableViewCell else { return }
         guard let indexPath = newsTableView.indexPath(for: cell) else { return }
-        if cell.isVarotite == false {
-            cell.likeImageView.image = UIImage(systemName: "heart.fill")
-            cell.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
-            articlesArray[indexPath.section].isFavorite = true
-            favoritePostsArray.append(articlesArray[indexPath.section])
-            cell.isVarotite.toggle()
-        }
+        cell.likeImageView.image = UIImage(systemName: "heart.fill")
+        cell.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
+        articlesArray[indexPath.section].isFavorite = true
+        favoritePostsArray.append(articlesArray[indexPath.section])
     }
 }
 

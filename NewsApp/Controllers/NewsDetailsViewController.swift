@@ -7,10 +7,12 @@
 
 import UIKit
 
-class NewsDetailsViewController: UIViewController {
+final class NewsDetailsViewController: UIViewController {
+    
+    var id = Int()
     
     let postImageView: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -21,7 +23,7 @@ class NewsDetailsViewController: UIViewController {
     }()
     
     let dateLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 1
@@ -29,10 +31,11 @@ class NewsDetailsViewController: UIViewController {
     }()
     
     let likeImageView: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: "heart")
+        imageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         return imageView
     }()
     
@@ -45,7 +48,7 @@ class NewsDetailsViewController: UIViewController {
     }()
     
     let postTextLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 0
@@ -57,7 +60,7 @@ class NewsDetailsViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Статья"
@@ -101,6 +104,18 @@ class NewsDetailsViewController: UIViewController {
     }
     
     @objc private func likesTapped() {
-        print ("tapped")
+        let b = favoritePostsArray.contains { element in
+            if element.title == articlesArray[id].title {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        if !b {
+            likeImageView.image = UIImage(systemName: "heart.fill")
+            likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
+            favoritePostsArray.append(articlesArray[id])
+        }
     }
 }

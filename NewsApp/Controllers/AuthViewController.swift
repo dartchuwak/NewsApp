@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     var isInRegistrationMode: Bool = false
     

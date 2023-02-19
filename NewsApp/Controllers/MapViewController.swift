@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class CustomAnnotation: NSObject, MKAnnotation {
+final class CustomAnnotation: NSObject, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
     var title: String?
@@ -23,7 +23,7 @@ class CustomAnnotation: NSObject, MKAnnotation {
     }
 }
 
-class MapViewController: UIViewController {
+final class MapViewController: UIViewController {
     
     let mapView = MKMapView()
     let firstPin = CustomAnnotation(coordinate: coordinateFirst, title: "First Pin", subtitle: "Cupertino, CA", image: UIImage(named: "mdi_map-marker"))

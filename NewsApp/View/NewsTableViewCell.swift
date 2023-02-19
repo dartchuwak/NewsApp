@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import SnapKit
 
 protocol TableCellDelegate: AnyObject {
     func didTapImageInCell( cell: UITableViewCell)
 }
 
-class NewsTableViewCell: UITableViewCell {
+final class NewsTableViewCell: UITableViewCell {
     
     
     var isVarotite: Bool = false
@@ -85,23 +86,32 @@ class NewsTableViewCell: UITableViewCell {
     }
     
     private func subviewsLayout() {
-        NSLayoutConstraint.activate([
-            newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            newsImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            newsImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            newsImageView.heightAnchor.constraint(equalToConstant: 132),
-            dateLabel.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: 9),
-            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 18),
-            likeImageView.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: 6),
-            likeImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
-            postTitleLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 11),
-            postTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            postTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            postTextLabel.topAnchor.constraint(equalTo: postTitleLabel.bottomAnchor, constant: 2),
-            postTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            postTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            postTextLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
-        ])
+        
+        newsImageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(132)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.top.equalTo(newsImageView.snp.bottom).inset(-9)
+            make.leading.equalToSuperview().inset(18)
+        }
+        
+        likeImageView.snp.makeConstraints { make in
+            make.top.equalTo(newsImageView.snp.bottom).inset(-6)
+            make.trailing.equalToSuperview().inset(19)
+        }
+        
+        postTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(dateLabel.snp.bottom).inset(-11)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        postTextLabel.snp.makeConstraints { make in
+            make.top.equalTo(postTitleLabel.snp.bottom).inset(-2)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(12)
+        }
     }
     
 }

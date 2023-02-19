@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController {
+final class FavoritesViewController: UIViewController {
     
     let favotireNewsCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
@@ -69,7 +69,9 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! FavoriteNewsCollectionViewCell
         let article = favoritePostsArray[indexPath.item]
-        cell.newsImageView.sd_setImage(with: URL(string: article.urlToImage!))
+        if let url = article.urlToImage {
+            cell.newsImageView.sd_setImage(with: URL(string: url))
+        }
         cell.dateLabel.text = String(article.publishedAt.prefix(10))
         cell.postTitleLabel.text = article.title
         return cell

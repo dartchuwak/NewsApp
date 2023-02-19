@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import SnapKit
+
+protocol CollectionViewDelegate: AnyObject {
+    func didTapImageInCell( cell: UICollectionViewCell)
+}
 
 
 
-class FavoriteNewsCollectionViewCell: UICollectionViewCell {
+final class FavoriteNewsCollectionViewCell: UICollectionViewCell {
+    
+    weak var delegate: CollectionViewDelegate?
     
     let newsImageView: UIImageView = {
         let imageView = UIImageView()
@@ -20,7 +27,6 @@ class FavoriteNewsCollectionViewCell: UICollectionViewCell {
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
-    
     
     let dateLabel: UILabel = {
         let label = UILabel()
@@ -34,7 +40,7 @@ class FavoriteNewsCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: "heart.fill")
-        imageView.tintColor = .red
+        imageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         return imageView
     }()
     
@@ -46,19 +52,19 @@ class FavoriteNewsCollectionViewCell: UICollectionViewCell {
     }()
     
     let stackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
         return stackView
     }()
-
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
         addViews()
         layoutViews()
-        
-        
+        likeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
     }
     
     override func layoutSubviews() {
@@ -66,7 +72,6 @@ class FavoriteNewsCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 22
         self.clipsToBounds = true
     }
-    
     
     private func addViews() {
         contentView.addSubview(newsImageView)
@@ -77,23 +82,25 @@ class FavoriteNewsCollectionViewCell: UICollectionViewCell {
     }
     
     private func layoutViews() {
-        NSLayoutConstraint.activate([
-        newsImageView.heightAnchor.constraint(equalToConstant: 95),
-        newsImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-        newsImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-        newsImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-        newsImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-        stackView.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: 11),
-        stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 9),
-        stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -9),
-        postTitleLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 8),
-        postTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-        postTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-        postTitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -18)
+        newsImageView.snp.makeConstraints { make in
+            make.height.equalTo(95)
+            make.leading.trailing.top.equalToSuperview()
+        }
         
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(newsImageView.snp.bottom).inset(-11)
+            make.leading.trailing.equalToSuperview().inset(9)
+        }
         
-        ])
-        
+        postTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(stackView.snp.bottom).inset(-8)
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().inset(18)
+        }
+    }
+    
+    @objc private func tapped() {
+        delegate?.didTapImageInCell(cell: self)
     }
     
     required init?(coder: NSCoder) {
