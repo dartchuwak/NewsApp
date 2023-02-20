@@ -11,8 +11,6 @@ import SnapKit
 
 final class NewsViewController: UIViewController {
     
-   // var articlesArray = [Article]()
-    
     let newsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +79,6 @@ final class NewsViewController: UIViewController {
     }
     
     private func layoutSubviews() {
-        
         tabTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(49)
             make.leading.equalToSuperview().inset(30)

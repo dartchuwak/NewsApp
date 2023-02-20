@@ -14,9 +14,7 @@ protocol TableCellDelegate: AnyObject {
 
 final class NewsTableViewCell: UITableViewCell {
     
-    
     var isVarotite: Bool = false
-
     weak var delegate: TableCellDelegate?
     
     let newsImageView: UIImageView = {
@@ -70,9 +68,6 @@ final class NewsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-
-    
     @objc private func tapped() {
         delegate?.didTapImageInCell(cell: self)
     }
@@ -86,7 +81,6 @@ final class NewsTableViewCell: UITableViewCell {
     }
     
     private func subviewsLayout() {
-        
         newsImageView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(132)

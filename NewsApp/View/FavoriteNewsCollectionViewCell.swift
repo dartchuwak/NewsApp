@@ -86,7 +86,7 @@ final class FavoriteNewsCollectionViewCell: UICollectionViewCell {
             make.height.equalTo(95)
             make.leading.trailing.top.equalToSuperview()
         }
-        
+    
         stackView.snp.makeConstraints { make in
             make.top.equalTo(newsImageView.snp.bottom).inset(-11)
             make.leading.trailing.equalToSuperview().inset(9)
