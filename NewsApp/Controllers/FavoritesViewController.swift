@@ -42,14 +42,15 @@ final class FavoritesViewController: UIViewController {
         favotireNewsCollectionView.collectionViewLayout = layout
         favotireNewsCollectionView.register(FavoriteNewsCollectionViewCell.self, forCellWithReuseIdentifier: "collectionViewCell")
         
-        NSLayoutConstraint.activate([
-            tabTitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 49),
-            tabTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            favotireNewsCollectionView.topAnchor.constraint(equalTo: tabTitleLabel.bottomAnchor, constant: 23),
-            favotireNewsCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            favotireNewsCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            favotireNewsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        tabTitleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(49)
+            make.leading.equalToSuperview().inset(30)
+        }
+        
+        favotireNewsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(tabTitleLabel.snp.bottom).inset(-30)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

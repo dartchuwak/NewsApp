@@ -97,25 +97,43 @@ final class AuthViewController: UIViewController {
         passwordResetButton.addTarget(self, action: #selector(resetPressed), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     private func layoutViews() {
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: enterButton.bottomAnchor, constant: 20),
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            enterButton.widthAnchor.constraint(equalToConstant: 200),
-            enterButton.heightAnchor.constraint(equalToConstant: 42),
-            enterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 88),
-            enterButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20),
-            emailTextField.widthAnchor.constraint(equalToConstant: 300),
-            emailTextField.heightAnchor.constraint(equalToConstant: 44),
-            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 38),
-            emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45),
-            passwordTextField.widthAnchor.constraint(equalToConstant: 300),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 44),
-            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 38),
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 15),
-            passwordResetButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwordResetButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
-        ])
+        
+        emailTextField.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(42)
+            make.centerX.equalTo(view.snp.centerX)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(45)
+        }
+        
+        passwordTextField.snp.makeConstraints { make in
+            make.width.equalTo(300)
+            make.height.equalTo(42)
+            make.centerX.equalTo(view.snp.centerX)
+            make.top.equalTo(emailTextField.snp.bottom).inset(-15)
+        }
+        
+        enterButton.snp.makeConstraints { make in
+            make.width.equalTo(200)
+            make.height.equalTo(42)
+            make.centerX.equalTo(view.snp.centerX)
+            make.top.equalTo(passwordTextField.snp.bottom).inset(-20)
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(enterButton.snp.bottom).inset(-20)
+            make.centerX.equalTo(view.snp.centerX)
+        }
+        
+        passwordResetButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view.snp.centerX)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(30)
+        }
+
     }
     
     private func addViews() {
