@@ -46,26 +46,30 @@ final class ResetPasswordViewController: UIViewController {
         view.backgroundColor = .white
         emailTextFiled.delegate = self
         self.title = "Сброс пароля"
-
         view.addSubview(emailTextFiled)
         view.addSubview(enterButton)
         view.addSubview(label)
-        
         enterButton.addTarget(self, action: #selector(tapped), for: .touchUpInside)
         
-        NSLayoutConstraint.activate([
-            emailTextFiled.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emailTextFiled.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            emailTextFiled.widthAnchor.constraint(equalToConstant: 300),
-            emailTextFiled.heightAnchor.constraint(equalToConstant: 44),
-            enterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            enterButton.topAnchor.constraint(equalTo: emailTextFiled.bottomAnchor, constant: 20),
-            enterButton.widthAnchor.constraint(equalToConstant: 200),
-            enterButton.heightAnchor.constraint(equalToConstant: 42),
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.topAnchor.constraint(equalTo: enterButton.bottomAnchor, constant: 10),
-            label.widthAnchor.constraint(equalToConstant: 300),
-        ])
+        emailTextFiled.snp.makeConstraints { make in
+            make.centerX.equalTo(view.snp.centerX)
+            make.width.equalTo(300)
+            make.height.equalTo(44)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(30)
+        }
+        
+        enterButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view.snp.centerX)
+            make.top.equalTo(emailTextFiled.snp.bottom).inset(-20)
+            make.width.equalTo(200)
+            make.height.equalTo(42)
+        }
+        
+        label.snp.makeConstraints { make in
+            make.centerX.equalTo(view.snp.centerX)
+            make.top.equalTo(enterButton.snp.bottom).inset(-10)
+            make.width.equalTo(300)
+        }
     }
     
     @objc private func tapped() {

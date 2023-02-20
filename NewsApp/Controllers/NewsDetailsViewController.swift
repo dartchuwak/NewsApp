@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class NewsDetailsViewController: UIViewController {
     
@@ -86,21 +87,27 @@ final class NewsDetailsViewController: UIViewController {
     }
     
     private func layoutViews() {
-        NSLayoutConstraint.activate([
-            postImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            postImageView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            postImageView.heightAnchor.constraint(equalToConstant: 260),
-            stackView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 15),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            postTitleLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 11),
-            postTitleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            postTitleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -50),
-            postTextLabel.topAnchor.constraint(equalTo: postTitleLabel.bottomAnchor, constant: 8),
-            postTextLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
-            postTextLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -14)
-        ])
+        postImageView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.width.equalToSuperview()
+            make.centerX.equalTo(view.snp.centerX)
+            make.height.equalTo(260)
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(postImageView.snp.bottom).inset(-15)
+            make.leading.trailing.equalToSuperview().inset(15)
+        }
+        
+        postTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(stackView.snp.bottom).inset(-11)
+            make.leading.trailing.equalToSuperview().inset(15)
+        }
+        
+        postTextLabel.snp.makeConstraints { make in
+            make.top.equalTo(postTitleLabel.snp.bottom).inset(-8)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(15)
+        }
     }
     
     @objc private func likesTapped() {
