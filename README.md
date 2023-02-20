@@ -4,6 +4,7 @@
 * Firebase Auth
 * FireBase Storage
 * SDWebImage
+* SnapKit
 
 ### Выполненные задачи: ###
 
