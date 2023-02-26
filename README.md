@@ -2,7 +2,7 @@
 
 ### Используемые фреймворки: ###
 * Firebase Auth
-* FireBase Storage
+* Firebase Storage
 * SDWebImage
 * SnapKit
 
