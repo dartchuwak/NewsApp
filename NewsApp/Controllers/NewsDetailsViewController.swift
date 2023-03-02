@@ -36,7 +36,6 @@ final class NewsDetailsViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(systemName: "heart")
-        imageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         return imageView
     }()
     
@@ -111,7 +110,7 @@ final class NewsDetailsViewController: UIViewController {
     }
     
     @objc private func likesTapped() {
-        let b = favoritePostsArray.contains { element in
+        let isAlreadyFavorite = favoritePostsArray.contains { element in
             if element.title == articlesArray[id].title {
                 return true
             } else {
@@ -119,7 +118,7 @@ final class NewsDetailsViewController: UIViewController {
             }
         }
         
-        if !b {
+        if isAlreadyFavorite == false {
             likeImageView.image = UIImage(systemName: "heart.fill")
             likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
             favoritePostsArray.append(articlesArray[id])

@@ -47,7 +47,7 @@ final class NewsViewController: UIViewController {
     }
     
     fileprivate func fetchData() {
-      NetworkManager.shared.fetchNewsData(completion: { result in
+        NetworkManager.shared.fetchNewsData(completion: { result in
             articlesArray = result
             DispatchQueue.main.async {
                 self.newsTableView.reloadData()
@@ -99,6 +99,7 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.postTitleLabel.text = article.title
         cell.postTextLabel.text = article.description
         if article.isFavorite == true {
+            cell.likeImageView.image = UIImage(systemName: "heart.fill")
             cell.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         }
         return cell
@@ -115,6 +116,7 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
         vc.postTextLabel.text = article.description
         if article.isFavorite == true {
             vc.likeImageView.image = UIImage(systemName: "heart.fill")
+            vc.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         }
         vc.id = indexPath.section
         navigationController?.pushViewController(vc, animated: true)
@@ -125,10 +127,23 @@ extension NewsViewController: TableCellDelegate {
     func didTapImageInCell( cell: UITableViewCell) {
         guard let cell = cell as? NewsTableViewCell else { return }
         guard let indexPath = newsTableView.indexPath(for: cell) else { return }
-        cell.likeImageView.image = UIImage(systemName: "heart.fill")
-        cell.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
-        articlesArray[indexPath.section].isFavorite = true
-        favoritePostsArray.append(articlesArray[indexPath.section])
+        
+        
+        let isAlreadyFavorite = favoritePostsArray.contains { element in
+            if element.title == articlesArray[indexPath.section].title {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        if isAlreadyFavorite == false {
+            articlesArray[indexPath.section].isFavorite = true
+            cell.likeImageView.image = UIImage(systemName: "heart.fill")
+            cell.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
+            favoritePostsArray.append(articlesArray[indexPath.section])
+        }
+        
     }
 }
 

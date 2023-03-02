@@ -8,6 +8,7 @@
 import Foundation
 
 struct Article: Decodable {
+    var id: Int?
     let title: String
     let description: String?
     let url: String

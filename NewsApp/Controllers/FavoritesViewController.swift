@@ -86,7 +86,7 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout, UICollect
         vc.postTitleLabel.text = article.title
         vc.postTextLabel.text = article.description
         vc.likeImageView.image = UIImage(systemName: "heart.fill")
-        vc.likeImageView.tintColor = .red
+        vc.likeImageView.tintColor = UIColor(red: 1, green: 0.392, blue: 0.51, alpha: 1)
         navigationController?.pushViewController(vc, animated: true)
     }
     
