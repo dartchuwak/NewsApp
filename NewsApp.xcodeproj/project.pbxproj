@@ -99,6 +99,75 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		A3CCD7C529B0EA0C00B6355F /* News */ = {
+			isa = PBXGroup;
+			children = (
+				A3CCD7CA29B0EAD400B6355F /* Views */,
+				A3CCD7C929B0EAC600B6355F /* Controllers */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		A3CCD7C729B0EA6200B6355F /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				A3CCD7CC29B0EAE900B6355F /* Views */,
+				A3CCD7CB29B0EAE000B6355F /* Controllers */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		A3CCD7C829B0EA8600B6355F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				A3CCD7CD29B0EAF500B6355F /* Controllers */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		A3CCD7C929B0EAC600B6355F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A3D1D8BA299D473E001EBEF2 /* NewsViewController.swift */,
+				A3D1D90C299D4FD2001EBEF2 /* NewsDetailsViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		A3CCD7CA29B0EAD400B6355F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A3D1D90E299D5147001EBEF2 /* NewsTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A3CCD7CB29B0EAE000B6355F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A3D1D907299D4B28001EBEF2 /* FavoritesViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		A3CCD7CC29B0EAE900B6355F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A3FE4147299E6A2A0038C2CC /* FavoriteNewsCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A3CCD7CD29B0EAF500B6355F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A3D1D903299D4B0F001EBEF2 /* ProfileViewController.swift */,
+				A3FE414E299E974E0038C2CC /* AuthViewController.swift */,
+				A3FE4152299EC8FC0038C2CC /* ResetPasswordViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		A3D1D8AA299D473E001EBEF2 = {
 			isa = PBXGroup;
 			children = (
@@ -119,11 +188,12 @@
 		A3D1D8B5299D473E001EBEF2 /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
+				A3CCD7C829B0EA8600B6355F /* Profile */,
+				A3CCD7C729B0EA6200B6355F /* Favorites */,
+				A3CCD7C529B0EA0C00B6355F /* News */,
 				A3A93CC629A93575005E1CB7 /* Services */,
 				A3FE4154299EC98A0038C2CC /* Helpers */,
-				A3FE4149299E93D70038C2CC /* Data */,
 				A3D1D90B299D4C3A001EBEF2 /* Controllers */,
-				A3D1D90A299D4C2C001EBEF2 /* View */,
 				A3D1D909299D4C1B001EBEF2 /* Model */,
 				A3D1D8B6299D473E001EBEF2 /* AppDelegate.swift */,
 				A3D1D8B8299D473E001EBEF2 /* SceneDelegate.swift */,
@@ -144,34 +214,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		A3D1D90A299D4C2C001EBEF2 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				A3D1D90E299D5147001EBEF2 /* NewsTableViewCell.swift */,
-				A3FE4147299E6A2A0038C2CC /* FavoriteNewsCollectionViewCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		A3D1D90B299D4C3A001EBEF2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				A3D1D901299D4971001EBEF2 /* TabBarController.swift */,
-				A3D1D8BA299D473E001EBEF2 /* NewsViewController.swift */,
-				A3D1D903299D4B0F001EBEF2 /* ProfileViewController.swift */,
-				A3D1D907299D4B28001EBEF2 /* FavoritesViewController.swift */,
-				A3D1D90C299D4FD2001EBEF2 /* NewsDetailsViewController.swift */,
-				A3FE414E299E974E0038C2CC /* AuthViewController.swift */,
-				A3FE4152299EC8FC0038C2CC /* ResetPasswordViewController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		A3FE4149299E93D70038C2CC /* Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Data;
 			sourceTree = "<group>";
 		};
 		A3FE4154299EC98A0038C2CC /* Helpers */ = {
