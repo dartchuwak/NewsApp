@@ -12,7 +12,6 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         
         viewControllers = [createNavigationController(viewController: NewsViewController(), title: "Новости", image: "newspaper"),
-                           createNavigationController(viewController: MapViewController(), title: "Карта", image: "location"),
                            createNavigationController(viewController: FavoritesViewController(), title: "Избранное", image: "heart"),
                            createNavigationController(viewController: ProfileViewController(), title: "Профиль", image: "profile")
                            ]

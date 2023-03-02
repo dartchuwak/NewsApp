@@ -11,6 +11,7 @@ import SnapKit
 
 final class NewsViewController: UIViewController {
     
+    
     let newsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,45 +34,27 @@ final class NewsViewController: UIViewController {
         view.backgroundColor = UIColor(named: "backgound")
         addSubviews()
         layoutSubviews()
+        fetchData()
         newsTableView.register(NewsTableViewCell.self, forCellReuseIdentifier: cellId)
         newsTableView.delegate = self
         newsTableView.dataSource = self
-        fetchData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.newsTableView.reloadData()
         navigationController?.navigationBar.isHidden = true
     }
     
-    // fetching data from NewsAPI
-    private func fetchData() {
-        let urlString = "https://newsapi.org/v2/everything?q=keyword&apiKey=c70c643125554893aeecc898703e50a1"
-        guard let url = URL(string: urlString) else { return }
-        
-        // getting data with URLSassion
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Ошибка получения данных: \(error.localizedDescription)")
-                return
+    fileprivate func fetchData() {
+      NetworkManager.shared.fetchNewsData(completion: { result in
+            articlesArray = result
+            DispatchQueue.main.async {
+                self.newsTableView.reloadData()
             }
-            guard let data = data else { return }
-            
-            do {
-                // decoding JSON
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                let newsResponse = try decoder.decode(NewsResponse.self, from: data)
-                let articles = newsResponse.articles
-                articlesArray = articles
-                DispatchQueue.main.async {
-                    self.newsTableView.reloadData()
-                }
-            } catch let error {
-                print("Ошибка парсинга данных: \(error.localizedDescription)")
-            }
-        }.resume()
+        })
     }
+    
     
     private func addSubviews() {
         view.addSubview(newsTableView)
@@ -140,7 +123,6 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension NewsViewController: TableCellDelegate {
     func didTapImageInCell( cell: UITableViewCell) {
-     //   let vc = FavoritesViewController()
         guard let cell = cell as? NewsTableViewCell else { return }
         guard let indexPath = newsTableView.indexPath(for: cell) else { return }
         cell.likeImageView.image = UIImage(systemName: "heart.fill")
